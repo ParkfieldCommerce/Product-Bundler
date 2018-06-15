@@ -1,7 +1,7 @@
 import ShopifyService from '@/services/shopify-service';
 
 export default {
-  getListOfProducts() {
+  getProducts() {
     ShopifyService.fetchAllProducts();
   },
 };

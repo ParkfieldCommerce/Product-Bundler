@@ -12,7 +12,7 @@ new Vue({
   router,
   store,
   created() {
-    console.log('hello');
+    this.$store.dispatch('getProducts');
   },
   render: h => h(App),
 }).$mount('#app');
