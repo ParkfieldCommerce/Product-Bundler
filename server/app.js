@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var shopifyRouter = require('./routes/shopify-api');
 
 var app = express();
 
@@ -24,6 +25,12 @@ app.use('/users', usersRouter);
 
 app.listen(process.env.PORT || 8081, function(){
   console.log('Server is started on port 8081');
+});
+
+app.post('/fetchAllProducts', (req,res) =>{
+  res.send({
+    message: 'Your user was registered! Have fun!'
+  });
 });
 
 app.get('/status', (req,res) =>{
