@@ -4,9 +4,6 @@
       <v-container>
         <div id="app">
           <MainNavigation/>
-          <div id="nav">
-asdfasdfs
-          </div>
           <router-view/>
         </div>
       </v-container>
