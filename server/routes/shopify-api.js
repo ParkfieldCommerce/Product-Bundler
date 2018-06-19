@@ -28,7 +28,7 @@ router.get('/fetchAllProducts', (req ,res) =>{
         console.log(err);
       });
     }else{
-      res.send(productList);
+      res.json(productList);
     }
   }
   shopify.product.count()
