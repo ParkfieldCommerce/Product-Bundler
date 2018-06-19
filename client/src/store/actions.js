@@ -1,12 +1,8 @@
 import ShopifyService from '@/services/shopify-service';
 
 export default {
-  getProducts(context) {
-    let products = ShopifyService.fetchAllProducts();
-    console.log(products.data);
-    //context.commit('setProducts', products.data);
+  async getProducts(context) {
+    const products = await ShopifyService.fetchAllProducts();
+    context.commit('setProducts', products.data);
   },
 };
-
-
-
