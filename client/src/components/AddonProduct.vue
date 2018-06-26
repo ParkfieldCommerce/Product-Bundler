@@ -13,40 +13,40 @@
 
 <script>
 export default {
-  data(){
-    return{
+  data() {
+    return {
       added: false,
-      quantity: 1
-    }
+      quantity: 1,
+    };
   },
-  props:{
-    product:Object
+  props: {
+    product: Object,
   },
-  computed:{
-    isSelected(){
+  computed: {
+    isSelected() {
       return this.$store.getters.isSelectedAddonProduct(this.product);
     },
-    buttonActionText(){
+    buttonActionText() {
       return this.added ? 'Added' : 'Add';
-    }
-  },
-  methods:{
-    selectProduct(){
-      this.$store.commit('updateSelectedAddonProducts',{product: this.product, quantity: parseInt(this.quantity) });
-      this.added = true;
-      setTimeout(()=>{
-        this.added = false;
-      },1500);
     },
-    updateQuantity(increment){
-      if(increment){
+  },
+  methods: {
+    selectProduct() {
+      this.$store.commit('updateSelectedAddonProducts', { product: this.product, quantity: parseInt(this.quantity, 10) });
+      this.added = true;
+      setTimeout(() => {
+        this.added = false;
+      }, 1500);
+    },
+    updateQuantity(increment) {
+      if (increment) {
         this.quantity += 1;
-      }else{
-        if(this.quantity - 1 > 0){
-          this.quantity -= 1;
-        }
       }
-    }
-  }
-}
+
+      if (this.quantity - 1 > 0 && !increment) {
+        this.quantity -= 1;
+      }
+    },
+  },
+};
 </script>

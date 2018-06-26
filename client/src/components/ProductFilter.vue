@@ -1,31 +1,36 @@
 <template>
   <select v-model="selected" class="Filter" @change="updateFilters">
     <option :value="category+'_all'" selected>All {{category}}s</option>
-    <option v-for="option in options" :value="option">{{option | filterValue}}</option>
+    <option
+      v-for="option in options"
+      :key="`Filter-${option}`"
+      :value="option">
+        {{option | filterValue}}
+    </option>
   </select>
 </template>
 
 <script>
 export default {
-  data(){
-    return{
-      selected:`${this.category}_all`
-    }
+  data() {
+    return {
+      selected: `${this.category}_all`,
+    };
   },
-  props:{
-    options:{
+  props: {
+    options: {
       type: Array,
-      required: true
+      required: true,
     },
-    category:{
+    category: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  methods:{
-    updateFilters(e){
-      this.$store.commit('updateFilters', e.target.value );
-    }
-  }
+  methods: {
+    updateFilters(e) {
+      this.$store.commit('updateFilters', e.target.value);
+    },
+  },
 };
 </script>

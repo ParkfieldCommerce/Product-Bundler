@@ -8,13 +8,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    mainProducts:[],
-    addonProducts:[],
-    cardProducts:[],
-    selectedFilters:[],
-    selectedMainProduct:{},
-    selectedAddonProducts:[],
-    selectedCardProduct:{}
+    mainProducts: [],
+    addonProducts: [],
+    cardProducts: [],
+    selectedFilters: [],
+    selectedMainProduct: {},
+    selectedAddonProducts: [],
+    selectedCardProduct: {},
   },
   mutations,
   actions,

@@ -20,41 +20,41 @@
 
 <script>
 export default {
-  props:{
-    product:Object
+  props: {
+    product: Object,
   },
-  data(){
-    return{
+  data() {
+    return {
       popupIsActive: false,
-      message:'',
-      isBlank: false
-    }
+      message: '',
+      isBlank: false,
+    };
   },
-  computed:{
-    buttonActionText(){
+  computed: {
+    buttonActionText() {
       return this.$store.getters.isSelectedCardProduct(this.product) ? 'Edit' : 'Select Card';
     },
-    isSelected(){
+    isSelected() {
       return this.$store.getters.isSelectedCardProduct(this.product);
-    }
-  },
-  methods:{
-    selectProduct(){
-      this.popupIsActive = true;
-      this.$store.commit('updateSelectedCardProduct',this.product);
     },
-    clearMessage(event){
-      if(this.isBlank){
+  },
+  methods: {
+    selectProduct() {
+      this.popupIsActive = true;
+      this.$store.commit('updateSelectedCardProduct', this.product);
+    },
+    clearMessage() {
+      if (this.isBlank) {
         this.message = '';
       }
     },
-    updateMessage(){
+    updateMessage() {
       this.$store.commit('updateSelectedCardMessage', this.message);
       this.closePopup();
     },
-    closePopup(){
+    closePopup() {
       this.popupIsActive = false;
-    }
-  }
+    },
+  },
 };
 </script>

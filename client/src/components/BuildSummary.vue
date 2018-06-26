@@ -4,7 +4,7 @@
       {{mainProduct.title}}-{{mainProduct | moneyFormat}}
     </div>
     <ul class="BuildSummary__addon-products">
-      <li v-for="addon in addonProducts">
+      <li v-for="addon in addonProducts" :key="addon.id">
         {{addon.title}} - {{addon.quantity}}
         {{addon | moneyFormat}}
         <button @click="removeAddon(addon)">x</button>
@@ -20,24 +20,24 @@
 
 <script>
 export default {
-  computed:{
-    mainProduct(){
+  computed: {
+    mainProduct() {
       return this.$store.state.selectedMainProduct;
     },
-    addonProducts(){
+    addonProducts() {
       return this.$store.state.selectedAddonProducts;
     },
-    cardProduct(){
+    cardProduct() {
       return this.$store.state.selectedCardProduct;
     },
-    totalBuildPrice(){
+    totalBuildPrice() {
       return this.$store.getters.totalBuildPrice;
-    }
+    },
   },
-  methods:{
-    removeAddon(product){
+  methods: {
+    removeAddon(product) {
       this.$store.commit('removeSelectedAddonProduct', product);
-    }
-  }
+    },
+  },
 };
 </script>

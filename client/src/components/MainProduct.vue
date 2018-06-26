@@ -8,25 +8,25 @@
 
 <script>
 export default {
-  props:{
-    product:Object
+  props: {
+    product: Object,
   },
-  computed:{
-    buttonActionText(){
+  computed: {
+    buttonActionText() {
       return this.$store.getters.isSelectedMainProduct(this.product) ? 'Remove' : 'Select Bag';
     },
-    isSelected(){
+    isSelected() {
       return this.$store.getters.isSelectedMainProduct(this.product);
-    }
+    },
   },
-  methods:{
-    selectProduct(){
-      if(this.$store.state.selectedMainProduct.id == this.product.id){
-        this.$store.commit('updateSelectedMainProduct',{});
-      }else{
-        this.$store.commit('updateSelectedMainProduct',this.product);
+  methods: {
+    selectProduct() {
+      if (this.$store.state.selectedMainProduct.id === this.product.id) {
+        this.$store.commit('updateSelectedMainProduct', {});
+      } else {
+        this.$store.commit('updateSelectedMainProduct', this.product);
       }
-    }
-  }
+    },
+  },
 };
 </script>
