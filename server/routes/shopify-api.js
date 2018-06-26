@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Shopify = require('shopify-api-node');
 
-const SHOP_NAME = 'rejuvenation-therapeutics-corp.myshopify.com';
-const SHOP_API_KEY = 'ee327c1849304f3eb816191b25534a6d';
-const SHOP_PASSWORD = 'e38a764db26c65d19c4d75af771acc50';
+const SHOP_NAME = 'happy-box-product-builder-app-test.myshopify.com';
+const SHOP_API_KEY = '3040feb3552de88cea2ac85cb0586e3f';
+const SHOP_PASSWORD = 'cc89cb9f9cd7fa32554dd5f03f6fa5d0';
 
 const shopify = new Shopify({
   shopName: process.env.SHOP_NAME || SHOP_NAME,
