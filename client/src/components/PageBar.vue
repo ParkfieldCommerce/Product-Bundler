@@ -1,24 +1,28 @@
 <template>
-  <div class="PageBar">
-    <button
-      @click="updatePage(1)"
-      :class="[currentpage >= 1 ? 'active' : '', {notActive: currentpage != 1}]"
+  <v-stepper-header>
+    <v-stepper-step
+      step="1"
+      :complete="hasSelectedMain()"
     >
-      1. Select Main Product
-    </button>
-    <button
-      @click="updatePage(2)"
-      :class="[currentpage >= 2 ? 'active' : '', {notActive: currentpage != 2}]"
+      Select Main Product
+    </v-stepper-step>
+    <v-divider></v-divider>
+
+    <v-stepper-step
+      step="2"
+      :complete="hasSelectedAddons()"
     >
-      2. Select Addon Products
-    </button>
-    <button
-      @click="updatePage(3)"
-      :class="[currentpage == 3 ? 'active' : '', {notActive: currentpage != 3}]"
+      Select Addon Products
+    </v-stepper-step>
+    <v-divider></v-divider>
+
+    <v-stepper-step
+      step="3"
+      :complete="hasSelectedCard()"
     >
-      3. Select & Write Card
-    </button>
-  </div>
+      Write Card
+    </v-stepper-step>
+  </v-stepper-header>
 </template>
 
 <script>
@@ -27,17 +31,24 @@ export default {
     currentpage: Number,
   },
   methods: {
-    updatePage(pageNumber) {
-      if (pageNumber === 1) {
-        this.$emit('changepage', pageNumber);
+    hasSelectedMain() {
+      if(this.$store.state.selectedMainProduct.id){
+        return true;
       }
-      if (pageNumber === 2) {
-        this.$emit('changepage', pageNumber);
-      }
-      if (pageNumber === 3) {
-        this.$emit('changepage', pageNumber);
-      }
+      return false;
     },
+    hasSelectedAddons() {
+      if(this.$store.state.selectedAddonProducts.length > 0){
+        return true;
+      }
+      return false;
+    },
+    hasSelectedCard() {
+      if(this.$store.state.selectedCardProduct.id){
+        return true;
+      }
+      return false;
+    }
   },
 };
 </script>

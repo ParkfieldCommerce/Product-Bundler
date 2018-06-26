@@ -1,8 +1,10 @@
 <template>
-  <div class="Product Product--card" :class="isSelected ? 'Product--selected' : ''">
-    <img class="Product__image" :src="product | getProductImage">
-    <p class="Product__title">{{product.title}}</p>
-    <button class="Product__button" @click="selectProduct">{{buttonActionText}}</button>
+  <v-card class="Product Product--card" :class="isSelected ? 'Product--selected' : ''">
+    <v-card-media class="Product__image" :src="product | getProductImage" height="200"></v-card-media>
+    <v-card-title class="Product__title">{{product.title}}</v-card-title>
+    <v-card-actions>
+      <v-btn class="Product__button" @click="selectProduct">{{buttonActionText}}</v-btn>
+    </v-card-actions>
     <div v-if="popupIsActive" class="Product__card-popup">
       <span class="Product__card-popup__overlay" @click="closePopup"></span>
       <div class="Product__card-popup__content">
@@ -15,7 +17,7 @@
         <button @click="updateMessage">All Set</button>
       </div>
     </div>
-  </div>
+  </v-card>
 </template>
 
 <script>

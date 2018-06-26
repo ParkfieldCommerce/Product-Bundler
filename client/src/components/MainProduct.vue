@@ -1,9 +1,11 @@
 <template>
-  <div class="Product Product--main" :class="isSelected ? 'Product--selected' : ''">
-    <img class="Product__image" :src="product | getProductImage">
-    <p class="Product__title">{{product.title}}</p>
-    <button class="Product__button" @click="selectProduct">{{buttonActionText}}</button>
-  </div>
+  <v-card class="Product Product--main" :class="isSelected ? 'Product--selected' : ''">
+    <v-card-media class="Product__image" :src="product | getProductImage" height="200px"></v-card-media>
+    <v-card-title class="Product__title">{{product.title}}</v-card-title>
+    <v-card-actions>
+      <v-btn class="Product__button" @click="selectProduct">{{buttonActionText}}</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
