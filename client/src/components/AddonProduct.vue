@@ -6,7 +6,7 @@
       <v-btn class="Product__button" @click="selectProduct">{{buttonActionText}}</v-btn>
       <div class="Product__quantity">
         <v-btn flat class="Product__quantity-btn" @click="updateQuantity(true)">+</v-btn>
-        <v-text-field readonly type="number" class="Product__quantity-value">{{quantity}}</v-text-field>
+        <v-input readonly type="number" class="Product__quantity-value">{{quantity}}</v-input>
         <v-btn flat class="Product__quantity-btn" @click="updateQuantity(false)">-</v-btn>
       </div>
     </v-card-actions>
