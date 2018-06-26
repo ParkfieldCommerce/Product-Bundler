@@ -4,6 +4,7 @@
     <v-card-title class="Product__title">{{product.title}}</v-card-title>
     <v-card-actions>
       <v-btn class="Product__button" @click="selectProduct">{{buttonActionText}}</v-btn>
+      <v-spacer></v-spacer>
       <div class="Product__quantity">
         <v-btn flat class="Product__quantity-btn" @click="updateQuantity(true)">+</v-btn>
         <v-input readonly type="number" class="Product__quantity-value">{{quantity}}</v-input>
@@ -57,8 +58,5 @@ export default {
   .Product__quantity{
     display: flex;
     align-items: center;
-  }
-  .card__actions{
-    justify-content: space-between;
   }
 </style>

@@ -5,18 +5,17 @@
     <v-card-actions>
       <v-btn class="Product__button" @click="selectProduct">{{buttonActionText}}</v-btn>
     </v-card-actions>
-    <div v-if="popupIsActive" class="Product__card-popup">
-      <span class="Product__card-popup__overlay" @click="closePopup"></span>
-      <div class="Product__card-popup__content">
-        <img class="Product__card-popup__image" :src="product | getProductImage">
-        <h3 class="Product__card-popup__heading">Write your card</h3>
+    <v-dialog v-model="popupIsActive" class="Product__card-popup" width="500">
+      <v-card class="Product__card-popup__content">
+        <v-card-media class="Product__card-popup__image" :src="product | getProductImage" height="200"></v-card-media>
+        <v-card-title class="Product__card-popup__heading">Write your card</v-card-title>
         <p class="Product__card-popup__body"></p>
-        <textarea v-if="!isBlank" v-model="message" name="message" cols="30" rows="5"></textarea>
+        <v-text-field outline v-if="!isBlank" v-model="message" name="message" cols="30" rows="5"></v-text-field>
         <label for="BlankCard">Click here if you want your card blank</label>
         <input name="BlankCard" type="checkbox" v-model="isBlank" @change="clearMessage"/>
         <button @click="updateMessage">All Set</button>
-      </div>
-    </div>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
