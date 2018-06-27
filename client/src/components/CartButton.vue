@@ -1,7 +1,7 @@
 <template>
-  <button @click="addToCart">
+  <v-btn @click="addToCart">
     {{buttonActionText}}
-  </button>
+  </v-btn>
 </template>
 
 <script>

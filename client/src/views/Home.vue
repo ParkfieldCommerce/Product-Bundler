@@ -5,7 +5,7 @@
         <PageBar @changepage="changePage($event)" :currentpage="currentPage"></PageBar>
         <v-stepper-items>
           <v-stepper-content step="1" class="BuildABox__page BuildABox__page--mainProducts">
-            <v-layout wrap row wrap class="BuildABox__main-products">
+            <v-layout wrap row class="BuildABox__main-products">
               <v-flex mb-4 ml-2 mr-2 xs12 md4  v-for="product in mainProducts" :key="product.id">
                 <MainProduct :product="product"></MainProduct>
               </v-flex>
@@ -38,14 +38,11 @@
             </v-layout>
           </v-stepper-content>
         </v-stepper-items>
-        <v-btn color="primary" @click.native="currentPage = 1">1</v-btn>
-        <v-btn color="primary" @click.native="currentPage = 2">2</v-btn>
-        <v-btn color="primary" @click.native="currentPage = 3">3</v-btn>
       </v-stepper>
     </div>
+    <BottomNav @changePage="changePage"></BottomNav>
     <div class="BuildABox__sidebar">
       <BuildSummary></BuildSummary>
-      <CartButton></CartButton>
     </div>
   </div>
 </template>
@@ -57,7 +54,7 @@ import CardProduct from '@/components/CardProduct.vue';
 import MainProduct from '@/components/MainProduct.vue';
 import PageBar from '@/components/PageBar.vue';
 import ProductFilter from '@/components/ProductFilter.vue';
-import CartButton from '@/components/CartButton.vue';
+import BottomNav from '@/components/BottomNav.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -69,7 +66,7 @@ export default {
     MainProduct,
     PageBar,
     ProductFilter,
-    CartButton,
+    BottomNav
   },
   data() {
     return {

@@ -31,20 +31,20 @@ export default {
     currentpage: Number,
   },
   methods: {
-    hasSelectedMain() {
-      if(this.$store.state.selectedMainProduct.id){
+    hasSelectedMain () {
+      if (this.$store.state.selectedMainProduct.id){
         return true;
       }
       return false;
     },
-    hasSelectedAddons() {
-      if(this.$store.state.selectedAddonProducts.length > 0){
+    hasSelectedAddons () {
+      if (this.$store.state.selectedAddonProducts.length > 0){
         return true;
       }
       return false;
     },
-    hasSelectedCard() {
-      if(this.$store.state.selectedCardProduct.id){
+    hasSelectedCard () {
+      if (this.$store.state.selectedCardProduct.id){
         return true;
       }
       return false;
