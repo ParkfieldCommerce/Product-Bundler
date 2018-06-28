@@ -40,7 +40,7 @@
         </v-stepper-items>
       </v-stepper>
     </div>
-    <BottomNav @changePage="changePage"></BottomNav>
+    <BottomNav @changePage="changePage" :currentpage="currentPage"></BottomNav>
     <div class="BuildABox__sidebar">
       <BuildSummary></BuildSummary>
     </div>
@@ -66,7 +66,7 @@ export default {
     MainProduct,
     PageBar,
     ProductFilter,
-    BottomNav
+    BottomNav,
   },
   data() {
     return {

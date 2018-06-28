@@ -1,6 +1,6 @@
 <template>
   <v-btn @click="addToCart">
-    {{buttonActionText}}
+    <v-icon>mdi-gift</v-icon>{{buttonActionText}}
   </v-btn>
 </template>
 
@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     buttonActionText() {
-      return this.isAdding ? 'Building...' : 'Build my Bundle';
+      return this.isAdding ? 'Building...' : 'Create My Box';
     },
   },
   methods: {

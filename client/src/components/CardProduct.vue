@@ -1,5 +1,5 @@
 <template>
-  <v-card class="Product Product--card" :class="isSelected ? 'Product--selected' : ''">
+  <v-card class="Product Product--card" :dark="isSelected">
     <v-card-media
       class="Product__image"
       :src="product | getProductImage"

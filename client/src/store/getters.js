@@ -97,4 +97,13 @@ export default {
 
     return intToPrice(totalPrice);
   },
+  hasSelectedMain(state) {
+    return state.selectedMainProduct.id;
+  },
+  hasSelectedAddons(state) {
+    return state.selectedAddonProducts.length > 0;
+  },
+  hasSelectedCard(state) {
+    return state.selectedCardProduct.id;
+  },
 };
