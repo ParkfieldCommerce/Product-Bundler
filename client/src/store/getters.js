@@ -98,12 +98,12 @@ export default {
     return intToPrice(totalPrice);
   },
   hasSelectedMain(state) {
-    return state.selectedMainProduct.id;
+    return state.selectedMainProduct.id !== undefined;
   },
   hasSelectedAddons(state) {
     return state.selectedAddonProducts.length > 0;
   },
   hasSelectedCard(state) {
-    return state.selectedCardProduct.id;
+    return state.selectedCardProduct.id !== undefined;
   },
 };

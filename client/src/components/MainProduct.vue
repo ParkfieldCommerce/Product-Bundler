@@ -1,6 +1,10 @@
 <template>
   <v-card class="Product Product--main" :dark="isSelected">
-    <v-card-media class="Product__image" :src="product | getProductImage" height="200px"></v-card-media>
+    <v-card-media
+      class="Product__image"
+      :src="product | getProductImage"
+      height="200px">
+    </v-card-media>
     <v-card-title class="Product__title">{{product.title}}</v-card-title>
     <v-card-actions>
       <v-btn class="Product__button" @click="selectProduct">{{buttonActionText}}</v-btn>

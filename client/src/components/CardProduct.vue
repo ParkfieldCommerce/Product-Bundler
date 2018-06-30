@@ -9,6 +9,7 @@
     <v-card-actions>
       <v-btn class="Product__button" @click="selectProduct">{{buttonActionText}}</v-btn>
     </v-card-actions>
+    
     <v-dialog v-model="popupIsActive" class="Product__card-popup" width="500">
       <v-card class="Product__card-popup__content">
         <v-card-media

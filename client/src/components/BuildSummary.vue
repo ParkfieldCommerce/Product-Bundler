@@ -1,19 +1,39 @@
 <template>
   <div class="BuildSummary">
-    <div class="BuildSummary__main-product">
-      {{mainProduct.title}}-{{mainProduct | moneyFormat}}
-    </div>
-    <ul class="BuildSummary__addon-products">
-      <li v-for="addon in addonProducts" :key="addon.id">
+    <v-list>
+      <v-list-tile class="BuildSummary__main-product">
+        <v-list-tile-avatar>
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          {{mainProduct.title}}-{{mainProduct | moneyFormat}}
+        </v-list-tile-content>
+        <v-list-tile-action>
+          <v-icon>mdi-gift</v-icon>
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-list-tile class="BuildSummary__addon-product" v-for="addon in addonProducts" :key="addon.id">
+        <v-list-tile-avatar>
+        </v-list-tile-avatar>
+        <v-list-tile-content>
         {{addon.title}} - {{addon.quantity}}
         {{addon | moneyFormat}}
-        <button @click="removeAddon(addon)">x</button>
-      </li>
-    </ul>
-    <div class="BuildSummary__card-product">
-      {{cardProduct.title}} - {{cardProduct | moneyFormat}}
-      {{cardProduct.message}}
-    </div>
+        </v-list-tile-content>
+        <v-list-tile-action>
+          <button @click="removeAddon(addon)"><v-icon>mdi-close-circle</v-icon></button>
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-list-tile class="BuildSummary__card-product">
+        <v-list-tile-avatar>
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          {{cardProduct.title}} - {{cardProduct | moneyFormat}}<br>
+          Message: {{cardProduct.message}}
+        </v-list-tile-content>
+        <v-list-tile-action>
+          <v-icon>mdi-gift</v-icon>
+        </v-list-tile-action>
+      </v-list-tile>
+    </v-list>
     <div class="BuildSummary__total-price">{{totalBuildPrice}}</div>
   </div>
 </template>

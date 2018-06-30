@@ -12,7 +12,7 @@
       <span>Next</span>
       <v-icon dark>arrow_forward</v-icon>
     </v-btn>
-    <CartButton></CartButton>
+    <CartButton v-show="enableCreate()"></CartButton>
   </v-bottom-nav>
 </template>
 
@@ -45,6 +45,13 @@ export default {
       }
       return false;
     },
+    enableCreate() {
+      const getters = this.$store.getters;
+      if (getters.hasSelectedMain && getters.hasSelectedAddons && getters.hasSelectedCard) {
+        return true;
+      }
+      return false;
+    },
     handleBackClick() {
       if (this.currentpage !== 1) {
         this.changePage(this.currentpage - 1);
@@ -60,24 +67,6 @@ export default {
     },
     changePage(page) {
       this.$emit('changePage', page);
-    },
-    hasSelectedMain() {
-      if (this.$store.state.selectedMainProduct.id) {
-        return true;
-      }
-      return false;
-    },
-    hasSelectedAddons() {
-      if (this.$store.state.selectedAddonProducts.length > 0) {
-        return true;
-      }
-      return false;
-    },
-    hasSelectedCard() {
-      if (this.$store.state.selectedCardProduct.id) {
-        return true;
-      }
-      return false;
     },
   },
 };
