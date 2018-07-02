@@ -46,7 +46,7 @@ export default {
       return false;
     },
     enableCreate() {
-      const getters = this.$store.getters;
+      const { getters } = this.$store;
       if (getters.hasSelectedMain && getters.hasSelectedAddons && getters.hasSelectedCard) {
         return true;
       }

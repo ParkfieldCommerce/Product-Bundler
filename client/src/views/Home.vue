@@ -95,7 +95,7 @@ export default {
       });
     },
     addonFilterOptions(category) {
-      const addonProducts = this.$store.state.addonProducts;
+      const { addonProducts } = this.$store.state;
       let tags = [];
       for (let i = 0; i < addonProducts.length; i++) {
         const productTags = addonProducts[i].tags.split(',');
@@ -105,7 +105,7 @@ export default {
       return tags;
     },
     cardFilterOptions(category) {
-      const cardProducts = this.$store.state.cardProducts;
+      const { cardProducts } = this.$store.state;
       let tags = [];
       for (let i = 0; i < cardProducts.length; i++) {
         const cardTags = cardProducts[i].tags.split(',');

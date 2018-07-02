@@ -11,7 +11,12 @@
           <v-icon>mdi-gift</v-icon>
         </v-list-tile-action>
       </v-list-tile>
-      <v-list-tile v-if="hasSelectedAddons()" class="BuildSummary__addon-product" v-for="addon in addonProducts" :key="addon.id">
+      <v-list-tile
+        v-if="hasSelectedAddons()"
+        class="BuildSummary__addon-product"
+        v-for="addon in addonProducts"
+        :key="addon.id"
+      >
         <v-list-tile-avatar>
         </v-list-tile-avatar>
         <v-list-tile-content>
@@ -30,7 +35,7 @@
           Message: {{cardProduct.message}}
         </v-list-tile-content>
         <v-list-tile-action>
-          <button @click="editMessage()">
+          <button @click="editMessage">
             <v-icon>mdi-lead-pencil</v-icon>
           </button>
         </v-list-tile-action>
@@ -68,6 +73,9 @@ export default {
     },
     hasSelectedCard() {
       return this.$store.getters.hasSelectedCard;
+    },
+    editMessage(e) {
+      console.log(e);
     },
   },
 };

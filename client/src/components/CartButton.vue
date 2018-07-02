@@ -20,9 +20,7 @@ export default {
   },
   methods: {
     addToCart() {
-      const mainProduct = this.$store.state.selectedMainProduct;
-      const addonProducts = this.$store.state.selectedAddonProducts;
-      const cardProduct = this.$store.state.selectedCardProduct;
+      const { selectedMainProduct, selectedAddonProducts, selectedCardProduct } = this.$store.state;
       const cartQueue = [];
       const boxKey = (Math.floor(Math.random() * 1000) + 1).toString();
 
@@ -30,17 +28,17 @@ export default {
         // Add Add to Cart Logic here
         console.log(queue);
       }
-      if (mainProduct.variants) {
+      if (selectedMainProduct.variants) {
         cartQueue.push({
-          id: mainProduct.variants[0].id,
+          id: selectedMainProduct.variants[0].id,
           quantity: 1,
           properties: {
             BoxNum: boxKey,
           },
         });
       }
-      if (addonProducts.length > 0) {
-        addonProducts.forEach((addon) => {
+      if (selectedAddonProducts.length > 0) {
+        selectedAddonProducts.forEach((addon) => {
           cartQueue.push({
             id: addon.variants[0].id,
             quantity: addon.quantity,
@@ -50,13 +48,13 @@ export default {
           });
         });
       }
-      if (cardProduct.variants) {
+      if (selectedCardProduct.variants) {
         cartQueue.push({
-          id: cardProduct.variants[0].id,
+          id: selectedCardProduct.variants[0].id,
           quantity: 1,
           properties: {
             BoxNum: boxKey,
-            Message: cardProduct.message,
+            Message: selectedCardProduct.message,
           },
         });
       }
