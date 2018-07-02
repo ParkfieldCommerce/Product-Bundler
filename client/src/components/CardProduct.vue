@@ -9,7 +9,12 @@
     <v-card-actions>
       <v-btn class="Product__button" @click="selectProduct">{{buttonActionText}}</v-btn>
     </v-card-actions>
-    <CardProductPopup :product="product" :popup-state="popupIsActive" @close-popup="closePopup"></CardProductPopup>
+    <CardProductPopup
+      :product="product"
+      :popup-state="popupIsActive"
+      @close-popup="closePopup"
+    >
+    </CardProductPopup>
   </v-card>
 </template>
 

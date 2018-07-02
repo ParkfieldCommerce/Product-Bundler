@@ -1,6 +1,6 @@
 <template>
   <v-bottom-nav fixed value="true" color="white">
-    <v-btn flat color="red">
+    <v-btn flat color="red" @click="showBuildSummary()">
       <span>My Current Box</span>
       <v-icon dark>mdi-package-variant</v-icon>
     </v-btn>
@@ -30,6 +30,9 @@ export default {
   computed: {
   },
   methods: {
+    showBuildSummary() {
+      this.$emit('show-summary', true);
+    },
     enableNext() {
       if (this.currentpage === 1 && this.$store.getters.hasSelectedMain) {
         return true;

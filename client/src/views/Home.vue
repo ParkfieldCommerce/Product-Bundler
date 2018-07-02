@@ -40,9 +40,16 @@
         </v-stepper-items>
       </v-stepper>
     </div>
-    <BottomNav @changePage="changePage" :currentpage="currentPage"></BottomNav>
+    <BottomNav
+      @changePage="changePage"
+      :currentpage="currentPage"
+      @show-summary="showSummary">
+    </BottomNav>
     <div class="BuildABox__sidebar">
-      <BuildSummary></BuildSummary>
+      <BuildSummary
+        :show-summary="showBuildSummary"
+        @show-summary="showSummary">
+      </BuildSummary>
     </div>
   </div>
 </template>
@@ -71,6 +78,7 @@ export default {
   data() {
     return {
       currentPage: 1,
+      showBuildSummary: false,
     };
   },
   computed: {
@@ -113,6 +121,12 @@ export default {
         tags = [...tags, ...tagsToAdd];
       }
       return tags;
+    },
+    showSummary(event) {
+      this.showBuildSummary = event;
+    },
+    hideSummary() {
+      this.showBuildSummary = false;
     },
   },
 };
