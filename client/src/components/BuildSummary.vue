@@ -1,7 +1,7 @@
 <template>
   <div class="BuildSummary">
     <v-list>
-      <v-list-tile class="BuildSummary__main-product">
+      <v-list-tile v-if="hasSelectedMain()" class="BuildSummary__main-product">
         <v-list-tile-avatar>
         </v-list-tile-avatar>
         <v-list-tile-content>
@@ -11,7 +11,7 @@
           <v-icon>mdi-gift</v-icon>
         </v-list-tile-action>
       </v-list-tile>
-      <v-list-tile class="BuildSummary__addon-product" v-for="addon in addonProducts" :key="addon.id">
+      <v-list-tile v-if="hasSelectedAddons()" class="BuildSummary__addon-product" v-for="addon in addonProducts" :key="addon.id">
         <v-list-tile-avatar>
         </v-list-tile-avatar>
         <v-list-tile-content>
@@ -22,7 +22,7 @@
           <button @click="removeAddon(addon)"><v-icon>mdi-close-circle</v-icon></button>
         </v-list-tile-action>
       </v-list-tile>
-      <v-list-tile class="BuildSummary__card-product">
+      <v-list-tile v-if="hasSelectedCard()" class="BuildSummary__card-product">
         <v-list-tile-avatar>
         </v-list-tile-avatar>
         <v-list-tile-content>
@@ -30,7 +30,9 @@
           Message: {{cardProduct.message}}
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-icon>mdi-gift</v-icon>
+          <button @click="editMessage()">
+            <v-icon>mdi-lead-pencil</v-icon>
+          </button>
         </v-list-tile-action>
       </v-list-tile>
     </v-list>
@@ -57,6 +59,15 @@ export default {
   methods: {
     removeAddon(product) {
       this.$store.commit('removeSelectedAddonProduct', product);
+    },
+    hasSelectedMain() {
+      return this.$store.getters.hasSelectedMain;
+    },
+    hasSelectedAddons() {
+      return this.$store.getters.hasSelectedAddons;
+    },
+    hasSelectedCard() {
+      return this.$store.getters.hasSelectedCard;
     },
   },
 };
