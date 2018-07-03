@@ -43,34 +43,21 @@ router.get('/fetchAllProducts', (req ,res) => {
 router.post('/createBox', (req, res) => {
   const items = req.body;
   const metafields = helpers.getMetaFields(items);
-  console.log(metafields);
+  const boxDescription = helpers.getBoxDescription(items);
+  
   shopify.product.create({
-    "title": "Your Box",
-    "product_type": "Built Box",
-    "metafields":[ 
-      { key: 'id',
-      value: '501264351283',
-      value_type: 'string',
-      namespace: 'main' },
-    { key: 'title',
-      value: 'Leaf Box',
-      value_type: 'string',
-      namespace: 'main' },
-    { key: 'quantity',
-      value: '1',
-      value_type: 'string',
-      namespace: 'main' },
-    { key: 'type',
-      value: 'Box',
-      value_type: 'string',
-      namespace: 'main' } ]
+    title: "Your Box",
+    product_type: "Built Box",
+    metafields,
+    variants:[{
+      "price":items.price
+    }]
   })
-  .then((res) => {
-    console.log(res);
+  .then((response) => {
+    res.send(response);
   })
   .catch((err)=> {
     console.log(err);
   });
-  res.send('hello');
 });
 module.exports = router;

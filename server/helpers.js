@@ -10,6 +10,7 @@ function getMetaObjects(item, type, index = ''){
   });
   return metaObjects;
 }
+
 function getMetaFields(items){
   const main = items.main;
   const addons = items.addons;
@@ -24,8 +25,20 @@ function getMetaFields(items){
   });
 
   const cardMetaObjects = getMetaObjects(card, 'card');
-  //return [...mainMetaObjects, ...addonsMetaObjects, ...cardMetaObjects];
-  return mainMetaObjects;
+  return [...mainMetaObjects, ...addonsMetaObjects, ...cardMetaObjects];
+}
+
+function getBoxDescription(items){
+  console.log('getting box description');
+  const boxDescription = {};
+  boxDescription['Box'] = items.main.title;
+  let addonDescription = items.addons.reduce((total, current) => {
+    console.log('in here');
+    console.log(total, current);
+    return total + current.title;
+  });
+  return boxDescription;
 }
 
 module.exports.getMetaFields = getMetaFields;
+module.exports.getBoxDescription = getBoxDescription;

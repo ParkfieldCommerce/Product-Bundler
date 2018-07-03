@@ -21,38 +21,41 @@ export default {
   methods: {
     addToCart() {
       const { selectedMainProduct, selectedAddonProducts, selectedCardProduct } = this.$store.state;
-      const boxItems = {};
+      const boxItems = {
+        price: this.$store.getters.totalBuildPrice,
+      };
 
       async function createBox(items) {
-        const products = await ShopifyService.createBox(items);
-        console.log(products);
+        const createdBox = await ShopifyService.createBox(items);
+        const createdBoxId = createdBox.data.id;
+        console.log(createdBoxId);
       }
 
       if (this.$store.getters.hasSelectedMain) {
         boxItems.main = ({
-          id: selectedMainProduct.id,
+          product_id: selectedMainProduct.id,
           title: selectedMainProduct.title,
           quantity: 1,
-          type:selectedMainProduct.product_type,
+          type: selectedMainProduct.product_type,
         });
       }
       if (this.$store.getters.hasSelectedAddons) {
         boxItems.addons = [];
         selectedAddonProducts.forEach((addon) => {
           boxItems.addons.push({
-            id: addon.id,
+            product_id: addon.id,
             title: addon.title,
             quantity: addon.quantity,
-            type:addon.product_type,
+            type: addon.product_type,
           });
         });
       }
       if (this.$store.getters.hasSelectedCard) {
         boxItems.card = {
-          id: selectedCardProduct.id,
+          product_id: selectedCardProduct.id,
           title: selectedCardProduct.title,
           quantity: 1,
-          type:selectedCardProduct.product_type,
+          type: selectedCardProduct.product_type,
           message: selectedCardProduct.message,
         };
       }
