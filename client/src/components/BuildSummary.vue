@@ -124,7 +124,7 @@ export default {
     },
     closeBuildSummary() {
       this.$emit('show-summary', false);
-    }
+    },
   },
 };
 </script>

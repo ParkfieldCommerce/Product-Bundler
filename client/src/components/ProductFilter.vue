@@ -1,13 +1,14 @@
 <template>
-  <select v-model="selected" class="Filter" @change="updateFilters">
-    <option :value="category+'_all'" selected>All {{category}}s</option>
-    <option
-      v-for="option in options"
-      :key="`Filter-${option}`"
-      :value="option">
-        {{option | filterValue}}
-    </option>
-  </select>
+  <v-select
+    v-model="selected"
+    label="Select"
+    single-line
+    :items="options"
+    item-text="text"
+    item-value="value"
+    @change="updateFilters"
+  >
+  </v-select>
 </template>
 
 <script>
@@ -29,7 +30,7 @@ export default {
   },
   methods: {
     updateFilters(e) {
-      this.$store.commit('updateFilters', e.target.value);
+      this.$store.commit('updateFilters', e);
     },
   },
 };

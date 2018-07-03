@@ -58,14 +58,17 @@ export default {
     handleBackClick() {
       if (this.currentpage !== 1) {
         this.changePage(this.currentpage - 1);
+        this.$store.commit('clearFilters');
       }
     },
     handleNextClick() {
       if (this.currentpage === 1 && this.$store.getters.hasSelectedMain) {
         this.changePage(this.currentpage + 1);
+        this.$store.commit('clearFilters');
       }
       if (this.currentpage === 2 && this.$store.getters.hasSelectedAddons) {
         this.changePage(this.currentpage + 1);
+        this.$store.commit('clearFilters');
       }
     },
     changePage(page) {

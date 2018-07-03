@@ -12,14 +12,20 @@
             </v-layout>
           </v-stepper-content>
           <v-stepper-content step="2" class="BuildABox__page BuildABox__page--addonProducts">
-            <ProductFilter
-              :options="addonFilterOptions('Occasion')"
-              category="Occasion">
-            </ProductFilter>
-            <ProductFilter
-              :options="addonFilterOptions('Type')"
-              category="Type">
-            </ProductFilter>
+            <v-layout wrap row>
+              <v-flex mb-6 pl-1 pr-1>
+                <ProductFilter
+                  :options="addonFilterOptions('Occasion')"
+                  category="Occasion">
+                </ProductFilter>
+              </v-flex>
+              <v-flex mb-6 pl-1 pr-1>
+                <ProductFilter
+                  :options="addonFilterOptions('Type')"
+                  category="Type">
+                </ProductFilter>
+              </v-flex>
+            </v-layout>
             <v-layout wrap class="BuildABox__addon-products">
               <v-flex mb-4 pr-2 pl-2 xs12 md4  v-for="product in addonProducts" :key="product.id">
                 <AddonProduct :product="product"></AddonProduct>
@@ -94,33 +100,42 @@ export default {
     changePage(page) {
       this.currentPage = page;
     },
-    filterTagsToAdd(tags, category) {
+    filterTagsToAdd(currentTags, tags, category) {
+      // Finds unique tags in the product not in the current list of tags
       return tags.filter((tag) => {
         if (tag.indexOf(`${category}_`) > -1) {
-          return tags.indexOf(tag) === -1;
+          return currentTags.indexOf(tag) === -1;
         }
         return false;
       });
     },
-    addonFilterOptions(category) {
-      const { addonProducts } = this.$store.state;
+    createOptions(category, products) {
+      // Creates an array of option objects(text-value) for the v-select component
       let tags = [];
-      for (let i = 0; i < addonProducts.length; i++) {
-        const productTags = addonProducts[i].tags.split(',');
-        const tagsToAdd = this.filterTagsToAdd(productTags, category);
+      tags.push(`${category}_all`);
+      for (let i = 0; i < products.length; i++) {
+        const productTags = products[i].tags.split(',');
+        const tagsToAdd = this.filterTagsToAdd(tags, productTags, category);
         tags = [...tags, ...tagsToAdd];
       }
+      tags = tags.map((tag) => {
+        const optionObject = {};
+        optionObject.text = tag.split('_').pop();
+        optionObject.value = tag;
+        if (tag.indexOf('_all') > -1) {
+          optionObject.text = `All ${tag.split('_').shift()}s`;
+        }
+        return optionObject;
+      });
       return tags;
+    },
+    addonFilterOptions(category) {
+      const { addonProducts } = this.$store.state;
+      return this.createOptions(category, addonProducts);
     },
     cardFilterOptions(category) {
       const { cardProducts } = this.$store.state;
-      let tags = [];
-      for (let i = 0; i < cardProducts.length; i++) {
-        const cardTags = cardProducts[i].tags.split(',');
-        const tagsToAdd = this.filterTagsToAdd(cardTags, category);
-        tags = [...tags, ...tagsToAdd];
-      }
-      return tags;
+      return this.createOptions(category, cardProducts);
     },
     showSummary(event) {
       this.showBuildSummary = event;
