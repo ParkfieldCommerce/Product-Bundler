@@ -5,7 +5,7 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import ShopifyService from '@/services/shopify-service';
 
 export default {
   data() {
@@ -21,45 +21,43 @@ export default {
   methods: {
     addToCart() {
       const { selectedMainProduct, selectedAddonProducts, selectedCardProduct } = this.$store.state;
-      const cartQueue = [];
-      const boxKey = (Math.floor(Math.random() * 1000) + 1).toString();
+      const boxItems = {};
 
-      function ajaxAdd(queue) {
-        // Add Add to Cart Logic here
-        console.log(queue);
+      async function createBox(items) {
+        const products = await ShopifyService.createBox(items);
+        console.log(products);
       }
-      if (selectedMainProduct.variants) {
-        cartQueue.push({
-          id: selectedMainProduct.variants[0].id,
+
+      if (this.$store.getters.hasSelectedMain) {
+        boxItems.main = ({
+          id: selectedMainProduct.id,
+          title: selectedMainProduct.title,
           quantity: 1,
-          properties: {
-            BoxNum: boxKey,
-          },
+          type:selectedMainProduct.product_type,
         });
       }
-      if (selectedAddonProducts.length > 0) {
+      if (this.$store.getters.hasSelectedAddons) {
+        boxItems.addons = [];
         selectedAddonProducts.forEach((addon) => {
-          cartQueue.push({
-            id: addon.variants[0].id,
+          boxItems.addons.push({
+            id: addon.id,
+            title: addon.title,
             quantity: addon.quantity,
-            properties: {
-              BoxNum: boxKey,
-            },
+            type:addon.product_type,
           });
         });
       }
-      if (selectedCardProduct.variants) {
-        cartQueue.push({
-          id: selectedCardProduct.variants[0].id,
+      if (this.$store.getters.hasSelectedCard) {
+        boxItems.card = {
+          id: selectedCardProduct.id,
+          title: selectedCardProduct.title,
           quantity: 1,
-          properties: {
-            BoxNum: boxKey,
-            Message: selectedCardProduct.message,
-          },
-        });
+          type:selectedCardProduct.product_type,
+          message: selectedCardProduct.message,
+        };
       }
       this.isAdding = true;
-      ajaxAdd(cartQueue);
+      createBox(boxItems);
     },
   },
 };

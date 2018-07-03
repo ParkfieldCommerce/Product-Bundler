@@ -7,18 +7,21 @@ const CARD_PRODUCT_TYPE = 'Card';
 export default {
   async getProducts(context) {
     const products = await ShopifyService.fetchAllProducts();
-    let totalProductList = products.data;
+    const totalProductList = products.data;
 
-    let mainProductList = totalProductList.filter(product =>{
-      return (product.product_type == MAIN_PRODUCT_TYPE && (product.variants[0].inventory_policy > 0 || !product.inventory_policy));
+    const mainProductList = totalProductList.filter((product) => {
+      const productAvailable = product.variants[0].inventory_policy > 0 || !product.inventory_policy;
+      return product.product_type === MAIN_PRODUCT_TYPE && productAvailable;
     });
 
-    let addonProductList = totalProductList.filter(product =>{
-      return (product.product_type == ADDON_PRODUCT_TYPE && product.variants[0].inventory_quantity > 0);
+    const addonProductList = totalProductList.filter((product) => {
+      const productAvailable = product.variants[0].inventory_quantity > 0;
+      return product.product_type === ADDON_PRODUCT_TYPE && productAvailable;
     });
 
-    let cardProductList = totalProductList.filter(product =>{
-      return (product.product_type == CARD_PRODUCT_TYPE && product.variants[0].inventory_quantity > 0);
+    const cardProductList = totalProductList.filter((product) => {
+      const productAvailable = product.variants[0].inventory_quantity > 0;
+      return product.product_type === CARD_PRODUCT_TYPE && productAvailable;
     });
     context.commit('setMainProducts', mainProductList);
     context.commit('setAddonProducts', addonProductList);

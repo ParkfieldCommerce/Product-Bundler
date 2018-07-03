@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Shopify = require('shopify-api-node');
+const helpers = require('../helpers.js');
 
 const SHOP_NAME = 'happy-box-product-builder-app-test.myshopify.com';
 const SHOP_API_KEY = '3040feb3552de88cea2ac85cb0586e3f';
@@ -12,8 +13,7 @@ const shopify = new Shopify({
   password: process.env.SHOP_PASSWORD || SHOP_PASSWORD
 });
 
-router.get('/fetchAllProducts', (req ,res) =>{
-
+router.get('/fetchAllProducts', (req ,res) => {
   function fetchProducts(page, productList = []){
     //Recursive function that gets the full list of products
     if(page != 0){
@@ -40,4 +40,37 @@ router.get('/fetchAllProducts', (req ,res) =>{
     });
 });
 
+router.post('/createBox', (req, res) => {
+  const items = req.body;
+  const metafields = helpers.getMetaFields(items);
+  console.log(metafields);
+  shopify.product.create({
+    "title": "Your Box",
+    "product_type": "Built Box",
+    "metafields":[ 
+      { key: 'id',
+      value: '501264351283',
+      value_type: 'string',
+      namespace: 'main' },
+    { key: 'title',
+      value: 'Leaf Box',
+      value_type: 'string',
+      namespace: 'main' },
+    { key: 'quantity',
+      value: '1',
+      value_type: 'string',
+      namespace: 'main' },
+    { key: 'type',
+      value: 'Box',
+      value_type: 'string',
+      namespace: 'main' } ]
+  })
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err)=> {
+    console.log(err);
+  });
+  res.send('hello');
+});
 module.exports = router;
