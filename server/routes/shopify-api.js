@@ -54,6 +54,7 @@ router.post('/createBox', (req, res) => {
     }]
   })
   .then((response) => {
+    response.boxDescription = boxDescription;
     res.send(response);
   })
   .catch((err)=> {

@@ -32,11 +32,11 @@ function getBoxDescription(items){
   console.log('getting box description');
   const boxDescription = {};
   boxDescription['Box'] = items.main.title;
-  let addonDescription = items.addons.reduce((total, current) => {
-    console.log('in here');
-    console.log(total, current);
-    return total + current.title;
-  });
+  boxDescription['Addons'] = items.addons.map((item) => {
+    return `${item.quantity}x${item.title}`;
+  }).join('\n');
+  boxDescription['Card'] = `${items.card.title}
+  Message:${items.card.message}`;
   return boxDescription;
 }
 

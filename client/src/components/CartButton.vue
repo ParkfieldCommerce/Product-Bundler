@@ -6,6 +6,7 @@
 
 <script>
 import ShopifyService from '@/services/shopify-service';
+import ShopifyBuy from '@/services/shopify-buy';
 
 export default {
   data() {
@@ -28,7 +29,11 @@ export default {
       async function createBox(items) {
         const createdBox = await ShopifyService.createBox(items);
         const createdBoxId = createdBox.data.id;
-        console.log(createdBoxId);
+        
+        ShopifyBuy.checkout.create().then((checkout) => {
+          console.log(checkout);
+        });
+
       }
 
       if (this.$store.getters.hasSelectedMain) {
