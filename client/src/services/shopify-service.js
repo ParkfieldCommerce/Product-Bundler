@@ -6,10 +6,7 @@ export default {
   },
   async createBox(data) {
     return Api().post('/shopify/createBox', data)
-      .then((response) => {
-        console.log(response);
-        return response;
-      })
+      .then(response => response)
       .catch((err) => {
         console.log(err);
       });
