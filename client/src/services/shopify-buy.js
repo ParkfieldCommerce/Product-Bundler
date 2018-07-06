@@ -6,17 +6,13 @@ const client = BuyClient.buildClient({
 });
 
 export async function ShopifyCheckout(box) {
-  console.log(box);
-  const boxId = btoa(box.data.variants[0].admin_graphql_api_id);
-  // const { boxDescription } = box.data;
+  const boxVariantId = btoa(box.data.variants[0].admin_graphql_api_id);
+  const { boxDescription } = box.data;
   const checkoutId = await client.checkout.create().then(checkout => checkout.id);
-  const checkoutLineItems = [{ variantId: boxId, quantity: 1 }];
+  const checkoutLineItems = [{ variantId: boxVariantId, quantity: 1, customAttributes: boxDescription }];
 
   client.checkout.addLineItems(checkoutId, checkoutLineItems).then((checkout) => {
-    console.log(checkout.id);
-    console.log('why wont u adddddd');
-    console.log(checkout.lineItems);
-    console.log(checkout.webUrl);
+    window.open(checkout.webUrl, '_blank');
   }).catch((err) => {
     console.log(err);
   });
