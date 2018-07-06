@@ -44,7 +44,17 @@ router.post('/createBox', (req, res) => {
   const items = req.body;
   const metafields = helpers.getMetaFields(items);
   const boxDescription = helpers.getBoxDescription(items);
-  
+  async function enableSalesChannel(product){
+    //must enable product on sales channel to checkout
+    await shopify.productListing.create(product.id)
+    .then((response) => {
+      console.log('Product Successfully Enabled on App Sales Channel');
+    })
+    .catch((err) =>{
+      console.log(err);
+    });
+  }
+
   shopify.product.create({
     title: "Your Box",
     product_type: "Built Box",
@@ -53,8 +63,9 @@ router.post('/createBox', (req, res) => {
       "price":items.price
     }]
   })
-  .then((response) => {
+  .then(async (response) => {
     response.boxDescription = boxDescription;
+    await enableSalesChannel(response);
     res.send(response);
   })
   .catch((err)=> {

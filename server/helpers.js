@@ -30,13 +30,16 @@ function getMetaFields(items){
 
 function getBoxDescription(items){
   console.log('getting box description');
-  const boxDescription = {};
-  boxDescription['Box'] = items.main.title;
-  boxDescription['Addons'] = items.addons.map((item) => {
+  const boxDescription = [];
+  const addonsProperty = items.addons.map((item) => {
     return `${item.quantity}x${item.title}`;
   }).join('\n');
-  boxDescription['Card'] = `${items.card.title}
-  Message:${items.card.message}`;
+
+  boxDescription.push({'key':'Box', 'value':items.main.title});
+  boxDescription.push({'key':'Addons', 'value':addonsProperty});
+  boxDescription.push({'key':'Card', 'value':items.card.title});
+  boxDescription.push({'key':'Message', 'value':items.card.message});
+
   return boxDescription;
 }
 
