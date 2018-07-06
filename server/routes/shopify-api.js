@@ -13,6 +13,8 @@ const shopify = new Shopify({
   password: process.env.SHOP_PASSWORD || SHOP_PASSWORD
 });
 
+const BOXNAME = 'Your Box';
+
 router.get('/fetchAllProducts', (req ,res) => {
   function fetchProducts(page, productList = []){
     //Recursive function that gets the full list of products
@@ -56,7 +58,7 @@ router.post('/createBox', (req, res) => {
   }
 
   shopify.product.create({
-    title: "Your Box",
+    title: BOXNAME,
     product_type: "Built Box",
     metafields,
     variants:[{
@@ -72,4 +74,37 @@ router.post('/createBox', (req, res) => {
     console.log(err);
   });
 });
+
+router.post('/order-created', (req, res) => {
+  async function getMetafields(productId){
+    console.log('getting metafields');
+    let metafields = [];
+    await shopify.metafield.list({
+      metafield:{
+        owner_resource:'product',
+        owner_id: productId
+      }
+    })
+    .then((res) => {
+      metafields = res;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    return metafields;
+  }
+  console.log('====== ORDER CREATED ======');
+  const orderItems = req.body.line_items;
+  orderItems.forEach(async (orderItem) => {
+    if(orderItem.title === BOXNAME){
+      const metafields = await getMetafields(orderItem.product_id);
+      const productIds = metafields
+        .filter(metafield => metafield.key === 'product_id')
+        .map( metafield => parseInt(metafield.value));
+      console.log(productIds);
+    }
+  });
+  res.end();
+})
+
 module.exports = router;

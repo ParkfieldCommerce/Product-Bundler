@@ -17,5 +17,8 @@
     "nodemon": "^1.17.5",
     "pug": "2.0.0-beta11",
     "shopify-api-node": "^2.14.0"
+  },
+  "engines": {
+    "node": "8.9.4"
   }
 }
