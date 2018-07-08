@@ -93,15 +93,37 @@ router.post('/order-created', (req, res) => {
     });
     return metafields;
   }
+  async function updateProductQuantity(inventoryList){
+    let locations = await shopify.location.list();
+    let locationId = locations[0].id;
+    inventoryList.forEach( item => {
+      shopify.inventoryLevel.adjust({
+        location_id: locationId,
+        inventory_item_id: item.id, 
+        available_adjustment: item.quantity*-1
+      })
+    });
+  }
   console.log('====== ORDER CREATED ======');
   const orderItems = req.body.line_items;
   orderItems.forEach(async (orderItem) => {
     if(orderItem.title === BOXNAME){
       const metafields = await getMetafields(orderItem.product_id);
       const productIds = metafields
-        .filter(metafield => metafield.key === 'product_id')
+        .filter(metafield => metafield.key === 'inventory_id')
         .map( metafield => parseInt(metafield.value));
-      console.log(productIds);
+      const productQuantities = metafields
+        .filter(metafield => metafield.key === 'quantity')
+        .map( metafield => parseInt(metafield.value));
+      let updateInventoryList = [];
+      productIds.forEach((id, index)=>{
+        let inventoryItem = {
+          id,
+          quantity: productQuantities[index]
+        };
+        updateInventoryList.push(inventoryItem);
+      });
+      updateProductQuantity(updateInventoryList);
     }
   });
   res.end();

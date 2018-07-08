@@ -34,6 +34,7 @@ export default {
       if (this.$store.getters.hasSelectedMain) {
         boxItems.main = ({
           product_id: selectedMainProduct.id,
+          inventory_id: selectedMainProduct.variants[0].inventory_item_id,
           title: selectedMainProduct.title,
           quantity: 1,
           type: selectedMainProduct.product_type,
@@ -44,6 +45,7 @@ export default {
         selectedAddonProducts.forEach((addon) => {
           boxItems.addons.push({
             product_id: addon.id,
+            inventory_id: addon.variants[0].inventory_item_id,
             title: addon.title,
             quantity: addon.quantity,
             type: addon.product_type,
@@ -53,6 +55,7 @@ export default {
       if (this.$store.getters.hasSelectedCard) {
         boxItems.card = {
           product_id: selectedCardProduct.id,
+          inventory_id: selectedCardProduct.variants[0].inventory_item_id,
           title: selectedCardProduct.title,
           quantity: 1,
           type: selectedCardProduct.product_type,
