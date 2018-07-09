@@ -77,7 +77,6 @@ router.post('/createBox', (req, res) => {
 
 router.post('/order-created', (req, res) => {
   async function getMetafields(productId){
-    console.log('getting metafields');
     let metafields = [];
     await shopify.metafield.list({
       metafield:{
@@ -102,28 +101,45 @@ router.post('/order-created', (req, res) => {
         inventory_item_id: item.id, 
         available_adjustment: item.quantity*-1
       })
+      .then( success => {
+        console.log(success);
+      })
+      .catch( err => {
+        console.log(err);
+      });
     });
+  }
+  function deleteBoxProduct(productId){
+    shopify.product.delete(productId)
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  function getProductsToUpdate(metafields){
+    const productIds = metafields
+    .filter(metafield => metafield.key === 'inventory_id')
+    .map( metafield => parseInt(metafield.value));
+    const productQuantities = metafields
+      .filter(metafield => metafield.key === 'quantity')
+      .map( metafield => parseInt(metafield.value));
+    let productsToUpdate = [];
+    productIds.forEach((id, index)=>{
+      let inventoryItem = {
+        id,
+        quantity: productQuantities[index]
+      };
+      productsToUpdate.push(inventoryItem);
+    });
+    return productsToUpdate;
   }
   console.log('====== ORDER CREATED ======');
   const orderItems = req.body.line_items;
   orderItems.forEach(async (orderItem) => {
     if(orderItem.title === BOXNAME){
       const metafields = await getMetafields(orderItem.product_id);
-      const productIds = metafields
-        .filter(metafield => metafield.key === 'inventory_id')
-        .map( metafield => parseInt(metafield.value));
-      const productQuantities = metafields
-        .filter(metafield => metafield.key === 'quantity')
-        .map( metafield => parseInt(metafield.value));
-      let updateInventoryList = [];
-      productIds.forEach((id, index)=>{
-        let inventoryItem = {
-          id,
-          quantity: productQuantities[index]
-        };
-        updateInventoryList.push(inventoryItem);
-      });
+      const updateInventoryList = getProductsToUpdate(metafields);
       updateProductQuantity(updateInventoryList);
+      deleteBoxProduct(orderItem.product_id);
     }
   });
   res.end();
