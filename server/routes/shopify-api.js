@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Shopify = require('shopify-api-node');
-const helpers = require('../helpers.js');
+const ShopifyFunctions = require('../scripts/shopify-functions.js');
+const helpers = require('../scripts/helpers.js');
 
 const SHOP_NAME = 'happy-box-product-builder-app-test.myshopify.com';
 const SHOP_API_KEY = '3040feb3552de88cea2ac85cb0586e3f';
 const SHOP_PASSWORD = 'cc89cb9f9cd7fa32554dd5f03f6fa5d0';
+const BOXNAME = 'Your Box';
 
 const shopify = new Shopify({
   shopName: process.env.SHOP_NAME || SHOP_NAME,
@@ -13,33 +15,9 @@ const shopify = new Shopify({
   password: process.env.SHOP_PASSWORD || SHOP_PASSWORD
 });
 
-const BOXNAME = 'Your Box';
-
-router.get('/fetchAllProducts', (req ,res) => {
-  function fetchProducts(page, productList = []){
-    //Recursive function that gets the full list of products
-    if(page != 0){
-      shopify.product.list({
-        limit:250,
-        page
-      }).then(products => {
-        let updatedProductList = [...productList, ...products];
-        fetchProducts(page - 1, updatedProductList);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    }else{
-      res.json(productList);
-    }
-  }
-  shopify.product.count()
-    .then( count => {
-      fetchProducts(Math.ceil(count/250));
-    })
-    .catch(err =>{
-      console.log(err);
-    });
+router.get('/fetchAllProducts', async (req ,res) => {
+  let allProducts = await ShopifyFunctions.getAllProducts();
+  res.json(allProducts);
 });
 
 router.post('/createBox', (req, res) => {

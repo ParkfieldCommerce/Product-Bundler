@@ -29,7 +29,6 @@ function getMetaFields(items){
 }
 
 function getBoxDescription(items){
-  console.log('getting box description');
   const boxDescription = [];
   const addonsProperty = items.addons.map((item) => {
     return `${item.quantity}x${item.title}`;

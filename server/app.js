@@ -25,7 +25,7 @@ app.use('/', indexRouter);
 app.use('/shopify', shopifyRouter);
 
 app.get('/status', (req,res) =>{
-  console.log('gottem');
+  console.log('We are Live');
   res.end();
 });
 
