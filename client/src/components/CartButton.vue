@@ -6,31 +6,32 @@
 
 <script>
 import ShopifyService from '@/services/shopify-service';
-import { ShopifyCheckout } from '@/services/shopify-buy';
+import ShopifyCheckout from '@/services/shopify-buy';
 
 export default {
   data() {
     return {
       isAdding: false,
+      isCreated: false,
     };
   },
   computed: {
     buttonActionText() {
-      return this.isAdding ? 'Building...' : 'Create My Box';
+      if (this.isCreated) {
+        return 'Gift is Built!';
+      }
+      if (this.isAdding) {
+        return 'Building...';
+      }
+      return 'Create My Box';
     },
   },
   methods: {
-    addToCart() {
+    async addToCart() {
       const { selectedMainProduct, selectedAddonProducts, selectedCardProduct } = this.$store.state;
       const boxItems = {
         price: this.$store.getters.totalBuildPrice,
       };
-
-      async function createBox(items) {
-        const createdBox = await ShopifyService.createBox(items);
-        ShopifyCheckout(createdBox);
-      }
-
       if (this.$store.getters.hasSelectedMain) {
         boxItems.main = ({
           product_id: selectedMainProduct.id,
@@ -63,7 +64,11 @@ export default {
         };
       }
       this.isAdding = true;
-      createBox(boxItems);
+      const createdBox = await ShopifyService.createBox(boxItems);
+      const created = await ShopifyCheckout(createdBox);
+      if (created) {
+        this.isCreated = true;
+      }
     },
   },
 };

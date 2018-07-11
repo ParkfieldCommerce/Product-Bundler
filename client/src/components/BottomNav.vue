@@ -1,14 +1,14 @@
 <template>
   <v-bottom-nav fixed value="true" color="white">
-    <v-btn flat color="red" @click="showBuildSummary()">
+    <v-btn @click="showBuildSummary()">
       <span>My Current Box</span>
       <v-icon dark>mdi-package-variant</v-icon>
     </v-btn>
-    <v-btn v-show="enableBack()" @click="handleBackClick()" flat color="red">
+    <v-btn v-show="enableBack()" @click="handleBackClick()">
       <span>Back</span>
       <v-icon dark>arrow_back</v-icon>
     </v-btn>
-    <v-btn v-show="enableNext()" @click="handleNextClick()" flat color="red">
+    <v-btn v-show="enableNext()" @click="handleNextClick()">
       <span>Next</span>
       <v-icon dark>arrow_forward</v-icon>
     </v-btn>
