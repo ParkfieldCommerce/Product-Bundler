@@ -11,6 +11,7 @@ const shopify = new Shopify({
   password: process.env.SHOP_PASSWORD || SHOP_PASSWORD
 });
 
+/* Set of Functions To Retrieve All the Products From the Store */
 async function getAllProducts(){
   //Returns all the products in the store to send to client server
   let numOfProducts = await getNumOfProducts();
@@ -37,4 +38,116 @@ async function getPageOfProducts(page){
   return products;
 }
 
+/* Set of Functions to Create and Return a Bundled Box */
+async function createBox(metafields, items, boxDescription){
+  //Starts process to create the box
+  let box = await createProduct({
+    title: BOXNAME,
+    product_type: "Built Box",
+    metafields,
+    variants:[{
+      "price":items.price
+    }]
+  });
+  box.boxDescription = boxDescription;
+  await enableSalesChannel(box);
+  return box;
+}
+async function createProduct(productDetails){
+  //Creates the box on Shopify and returns the object
+  let product = await shopify.product.create(productDetails)
+  .then( response => {
+    return response;
+  })
+  .catch((err)=> {
+    console.log(err);
+  });
+  return product;
+}
+async function enableSalesChannel(product){
+  //Enable product on sales channel to checkout
+  await shopify.productListing.create(product.id)
+  .then((response) => {
+    console.log('Product Successfully Enabled on App Sales Channel');
+  })
+  .catch((err) =>{
+    console.log(err);
+  });
+}
+
+/* Set of Functions to handle a completed order with a box */
+async function handleOrderCreation(orderItems){
+  orderItems.forEach(async (orderItem) => {
+    if(orderItem.title === BOXNAME){
+      const metafields = await getMetafields(orderItem.product_id);
+      const updateInventoryList = getProductsToUpdate(metafields);
+      updateProductQuantity(updateInventoryList);
+      deleteBoxProduct(orderItem.product_id);
+    }
+  });
+}
+async function getMetafields(productId){
+  //Returns all the metafields for the box
+  let metafields = [];
+  await shopify.metafield.list({
+    metafield:{
+      owner_resource:'product',
+      owner_id: productId
+    }
+  })
+  .then((res) => {
+    metafields = res;
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+  return metafields;
+}
+function getProductsToUpdate(metafields){
+  //Finds which items need inventory updated
+  const productIds = metafields
+  .filter(metafield => metafield.key === 'inventory_id')
+  .map( metafield => parseInt(metafield.value));
+  const productQuantities = metafields
+    .filter(metafield => metafield.key === 'quantity')
+    .map( metafield => parseInt(metafield.value));
+  let productsToUpdate = [];
+  productIds.forEach((id, index)=>{
+    let inventoryItem = {
+      id,
+      quantity: productQuantities[index]
+    };
+    productsToUpdate.push(inventoryItem);
+  });
+  return productsToUpdate;
+}
+async function updateProductQuantity(inventoryList){
+  //Adjusts the quantity for each item in the box
+  let locations = await shopify.location.list();
+  let locationId = locations[0].id;
+  inventoryList.forEach( item => {
+    shopify.inventoryLevel.adjust({
+      location_id: locationId,
+      inventory_item_id: item.id, 
+      available_adjustment: item.quantity*-1
+    })
+    .then( success => {
+      console.log(success);
+    })
+    .catch( err => {
+      console.log(err);
+    });
+  });
+}
+function deleteBoxProduct(productId){
+  //Deletes the box from the Shopify Store
+  shopify.product.delete(productId)
+  .catch(err => {
+    console.log(err);
+  });
+}
+
+
 module.exports.getAllProducts = getAllProducts;
+module.exports.createBox = createBox;
+module.exports.handleOrderCreation = handleOrderCreation;
