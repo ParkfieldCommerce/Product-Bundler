@@ -4,11 +4,13 @@ const ShopifyFunctions = require('../scripts/shopify-functions.js');
 const helpers = require('../scripts/helpers.js');
 
 router.get('/fetchAllProducts', async (req ,res) => {
+  console.log('====== Fetch Products ======');
   let allProducts = await ShopifyFunctions.getAllProducts();
   res.json(allProducts);
 });
 
 router.post('/createBox', async (req, res) => {
+  console.log('====== Creating Box ======');
   const items = req.body;
   const metafields = helpers.getMetaFields(items);
   const boxDescription = helpers.getBoxDescription(items);

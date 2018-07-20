@@ -10,7 +10,7 @@
       <v-btn icon dark @click="closeBuildSummary()">
         <v-icon>close</v-icon>
       </v-btn>
-      <v-toolbar-title>Settings</v-toolbar-title>
+      <v-toolbar-title>Current Build</v-toolbar-title>
     </v-toolbar>
     <v-list>
       <v-list-tile v-if="hasSelectedMain()" class="BuildSummary__main-product">

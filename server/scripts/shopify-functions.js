@@ -132,7 +132,7 @@ async function updateProductQuantity(inventoryList){
       available_adjustment: item.quantity*-1
     })
     .then( success => {
-      console.log(success);
+      console.log(`${success.inventory_item_id} inventory updated`);
     })
     .catch( err => {
       console.log(err);
